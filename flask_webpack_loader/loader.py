@@ -13,7 +13,7 @@ from .config import DEFAULT_CONFIG
 
 class WebpackLoader(object):
 
-    def __init__(self, app):
+    def __init__(self, app=None):
         self.app = app
         self.config = DEFAULT_CONFIG
         self.assets = {}
