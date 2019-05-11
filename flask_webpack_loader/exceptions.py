@@ -8,7 +8,7 @@ __all__ = (
 
 class BaseWebpackLoaderException(Exception):
     """
-    Base exception for django-webpack-loader.
+    Base exception for webpack-loader.
     """
 
 
