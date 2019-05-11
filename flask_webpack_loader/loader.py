@@ -27,7 +27,7 @@ class WebpackLoader(object):
         :return: None
         """
         self.config = app.config.get('WEBPACK_LOADER') or self.config
-        self.config['CACHE'] = app.config.get('DEBUG', True)
+        self.config['CACHE'] = not app.config.get('DEBUG', True)
 
         app.add_template_global(self.render_bundle)
         app.add_template_global(self.render_static)
@@ -122,7 +122,7 @@ class WebpackLoader(object):
 
         # poll when debugging and block request until bundle is compiled
         # or the build times out
-        if self.app.config.get('DEBUG', False):
+        if not self.config['CACHE']:
             timeout = self.config['TIMEOUT'] or 0
             timed_out = False
             start = time.time()
