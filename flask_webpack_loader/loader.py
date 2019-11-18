@@ -31,6 +31,8 @@ class WebpackLoader(object):
 
         app.add_template_global(self.render_bundle)
         app.add_template_global(self.render_static)
+        app.add_template_global(self.get_files)
+        app.add_template_global(self.get_assets)
 
     @staticmethod
     def _filter_by_extension(bundle, extension):
