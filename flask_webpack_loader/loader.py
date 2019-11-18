@@ -51,6 +51,33 @@ class WebpackLoader(object):
         """Returns list of chunks from named bundle"""
         return list(self._get_bundle(bundle_name, extension))
 
+    def prerender_bundle(self, bundle_name, extension=None):
+        """
+        Get a list of formatted <script> & <link> tags for the assets in the
+        named bundle.
+        :param bundle_name: The name of the bundle
+        :param extension: (optional) filter by extension, eg. 'js' or 'css'
+        :param attrs: attrs
+        :return: a list of formatted tags as strings
+        """
+
+        bundle = self._get_bundle(bundle_name, extension)
+        tags = []
+        for chunk in bundle:
+            if chunk['name'].endswith(('.js', '.js.gz')):
+                tags.append(
+                    (
+                        '<link src="{0}" rel="prefetch" />'
+                    ).format(chunk['url'], attrs)
+                )
+            elif chunk['name'].endswith(('.css', '.css.gz')):
+                tags.append(
+                    (
+                        '<link href="{0}" rel="preload" as="style" />'
+                    ).format(chunk['url'], attrs)
+                )
+        return '\n'.join(tags)
+
     def render_bundle(self, bundle_name, extension=None, attrs=''):
         """
         Get a list of formatted <script> & <link> tags for the assets in the
