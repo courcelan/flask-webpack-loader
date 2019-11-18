@@ -30,6 +30,7 @@ class WebpackLoader(object):
         self.config['CACHE'] = not app.config.get('DEBUG', True)
 
         app.add_template_global(self.render_bundle)
+        app.add_template_global(self.prerender_bundle)
         app.add_template_global(self.render_static)
         app.add_template_global(self.get_files)
         app.add_template_global(self.get_assets)
