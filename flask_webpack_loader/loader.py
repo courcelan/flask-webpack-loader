@@ -58,7 +58,6 @@ class WebpackLoader(object):
         named bundle.
         :param bundle_name: The name of the bundle
         :param extension: (optional) filter by extension, eg. 'js' or 'css'
-        :param attrs: attrs
         :return: a list of formatted tags as strings
         """
 
@@ -68,13 +67,39 @@ class WebpackLoader(object):
             if chunk['name'].endswith(('.js', '.js.gz')):
                 tags.append(
                     (
-                        '<link src="{0}" rel="prefetch" />'
+                        '<link src="{0}" rel="preload" as="script" />'
                     ).format(chunk['url'])
                 )
             elif chunk['name'].endswith(('.css', '.css.gz')):
                 tags.append(
                     (
                         '<link href="{0}" rel="preload" as="style" />'
+                    ).format(chunk['url'])
+                )
+        return '\n'.join(tags)
+
+    def prefetch_bundle(self, bundle_name, extension=None):
+        """
+        Get a list of formatted <script> & <link> tags for the assets in the
+        named bundle.
+        :param bundle_name: The name of the bundle
+        :param extension: (optional) filter by extension, eg. 'js' or 'css'
+        :return: a list of formatted tags as strings
+        """
+
+        bundle = self._get_bundle(bundle_name, extension)
+        tags = []
+        for chunk in bundle:
+            if chunk['name'].endswith(('.js', '.js.gz')):
+                tags.append(
+                    (
+                        '<link src="{0}" rel="prefetch" as="script" />'
+                    ).format(chunk['url'])
+                )
+            elif chunk['name'].endswith(('.css', '.css.gz')):
+                tags.append(
+                    (
+                        '<link href="{0}" rel="prefetch" as="style" />'
                     ).format(chunk['url'])
                 )
         return '\n'.join(tags)
