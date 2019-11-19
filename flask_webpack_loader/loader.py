@@ -68,7 +68,7 @@ class WebpackLoader(object):
             if chunk['name'].endswith(('.js', '.js.gz')):
                 tags.append(
                     (
-                        '<link src="{0}" rel="preload" as="script" />'
+                        '<link href="{0}" rel="preload" as="script" />'
                     ).format(chunk['url'])
                 )
             elif chunk['name'].endswith(('.css', '.css.gz')):
@@ -94,13 +94,13 @@ class WebpackLoader(object):
             if chunk['name'].endswith(('.js', '.js.gz')):
                 tags.append(
                     (
-                        '<link src="{0}" rel="prefetch" as="script" />'
+                        '<link href="{0}" rel="prefetch" />'
                     ).format(chunk['url'])
                 )
             elif chunk['name'].endswith(('.css', '.css.gz')):
                 tags.append(
                     (
-                        '<link href="{0}" rel="prefetch" as="style" />'
+                        '<link href="{0}" rel="prefetch" />'
                     ).format(chunk['url'])
                 )
         return '\n'.join(tags)
